@@ -143,7 +143,7 @@ void saveData() {
 }
 
 void loadData() {
-    int i,j;
+    int i,j,k;
     FILE *filePtr = fopen("registration_data.txt", "r");
     fscanf(filePtr, "%d\n", &courses_count);
     for (i = 0; i < courses_count; i++) {
@@ -165,6 +165,14 @@ void loadData() {
         for (j = 0; j < std[i].coursesCount; j++) {
             fgets(std[i].registeredCourses[j].courseCode, 10, filePtr);
             std[i].registeredCourses[j].courseCode[strcspn(std[i].registeredCourses[j].courseCode, "\n")] = '\0';
+
+            for (k = 0; k < courses_count; k++) {
+                if (strcmp(std[i].registeredCourses[j].courseCode, c[k].courseCode) == 0) {
+                    strcpy(std[i].registeredCourses[j].courseName, c[k].courseName);
+                    std[i].registeredCourses[j].credits = c[k].credits;
+                    break; 
+                }
+            }
         }
     }
 
